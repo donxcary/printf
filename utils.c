@@ -1,165 +1,87 @@
 #include "main.h"
 
-/**
- * get_precision - get precision
- * @format: format
- * @i: index
- * @args: arguments
- * Return: precision
- */
-int handle_wirte_num(int ind, char* buff, int width, int flags, int precision, int length, char padd, char extra_c)
-{
-	int count = 0;
-
-	if (flags & F_MINUS)
-	{
-		count += handle_precision_char(buff, precision, length);
-		count += handle_width(buff, width, flags, precision, length);
-	}
-	else
-	{
-		count += handle_width(buff, width, flags, precision, length);
-		count += handle_precision_char(buff, precision, length);
-	}
-	return (count);
-}
-
-/**
- * handle_write_pointer - handle write pointer
- * @num: number
- * @buff: buffer
- * @i: index
- * @flags: flags
- * @width: width
- * @precision: precision
- * @size: size
- *	Return: number of characters printed
- */
-int handle_wirte_pointer(int ind, char* buff, int width, int flags, int length, char padd, char extra_c, int padd_start)
-{
-	int count = 0;
-
-	if (flags & F_MINUS)
-	{
-		count += _write_char('0', buff, &ind);
-		count += _write_char('x', buff, &ind);
-		count += handle_precision_char(buff, width, length);
-		count += handle_width(buff, width, flags, width, length);
-	}
-	else
-	{
-		count += handle_width(buff, width, flags, width, length);
-		count += _write_char('0', buff, &ind);
-		count += _write_char('x', buff, &ind);
-		count += handle_precision_char(buff, width, length);
-	}
-	return (count);
-}
-
-/**
- * handle_write_unsigned - handle write unsigned
- * @num: number
- * @buff: buffer
- * @i: index
- * @flags: flags
- * @width: width
- * @precision: precision
- * @size: size
- * Return: number of characters printed
- */
-int handle_write_unsigned(int is_negative, int ind, char* buff, int width, int flags, int precision, int size)
-{
-	int count = 0;
-
-	if (flags & F_MINUS)
-	{
-		if (is_negative)
-			count += _write_char('-', buff, &ind);
-		count += handle_precision_char(buff, precision, size);
-		count += handle_width(buff, width, flags, precision, size);
-	}
-	else
-	{
-		count += handle_width(buff, width, flags, precision, size);
-		if (is_negative)
-			count += _write_char('-', buff, &ind);
-		count += handle_precision_char(buff, precision, size);
-	}
-	return (count);
-}
-
-/**
- * is_printable - check if char is printable
- * @c: char
- * Return: 1 if printable, 0 otherwise
- */
- int is_printable(char)
-{
-return (c >= 32 && c <= 126);
-}
-
-/**
-* append_hex_code - append hex code
-* @c: char
-* @buff: buffer
-* @i: index
-* Return: number of characters printed
+/************************* Is Printable *************************/
+/*8
+* is_printable - checks if a character is printable
+* @c: character to check
+* Return: 1 if c is printable, 0 otherwise
 */
- int append_hex_code(char, char*, int)
+int is_printable(char c)
 {
-	int count = 0;
-
-	count += _write_char('\\', buff, i);
-	count += _write_char('x', buff, i);
-	count += _write_char('0', buff, i);
-
-	if (c < 16)
-		count += _write_char('0', buff, i);
-		count += _write_hex(c, buff, i, 0);
-	return (count);
+	return (c >= 32 && c <= 126);
 }
 
+/************************* Append Hexa *************************/
+/*
+* append_hexa_code - appends a hexa code to a buffer
+* @buffer: array of characters
+* @index: index at which to start appending
+* @ascii_code: ascii code to append
+* Return: always 3
+*/
+int append_hexa_code(char ascii_code, char buff[], int i)
+{
+	char map_to[] = "0123456789ABCDEF";
+	/* The hexa format code is always 2 digits long */
+	if (ascii_code < 0)
+		ascii_code *= -1;
+
+	buffer[i++] = '\\';
+	buffer[i++] = 'x';
+
+	buffer[i++] = map_to[ascii_code / 16];
+	buffer[i] = map_to[ascii_code % 16];
+
+	return (3);
+}
+
+/************************* Convert Size Unsigned *************************/
 /**
-* is_digit - check if char is digit
+* convert_size_unsgnd - cast a number to specified size
+* @num: number to cast
+* @size: number indicating the type of casting
 * 
-* Return: 1 if digit, 0 otherwise
-*/ 
- int is_digit(char)
- {
-		return (c >= '0' && c <= '9');
- }
-
-/**
-* long int convert_size_number - convert size number
-* @num: number
-* @size: size
-* Return: converted number
+* Return: the casted number
 */
- long int convert_size_number(long int num, int size)
- {
-if (size == 0)
-			return ((char)num);
-		else if (size == 1)
-			return ((short int)num);
-		else if (size == 2)
-			return ((long int)num);
-		else if (size == 3)
-			return ((long long int)num);
-		else
-			return (num);
- }
+long int convert_size_unsgnd(unsigned long int num, int size)
+{
+	if (size == S_LONG)
+		return (num);
+	else if (size == S_SHORT)
+		return ((unsigned short)num);
 
- long int convert_size_unsigned_number(unsigned long int num, int size)
- {
-if (size == 0)
-			return ((unsigned char)num);
-		else if (size == 1)
-			return ((unsigned short int)num);
-		else if (size == 2)
-			return ((unsigned long int)num);
-		else if (size == 3)
-			return ((unsigned long long int)num);
-		else
-			return (num);
- }
+	return ((unsigned int)num);
+}
 
+/************************* Convert Size Number *************************/
+/**
+* convert_size_number - cast a number to specified size
+* @num: number to cast
+* @size: number indicating the type of casting
+* 
+* 
+* Return: the casted number
+*/
+long int convert_size_number(long int num, int size)
+{
+	if (size == S_LONG)
+		return (num);
+	else if (size == S_SHORT)
+		return ((short)num);
+
+	return ((int)num);
+}
+
+/************************* Is Digit *************************/
+/**
+* is_digit - checks if a character is a digit
+* @c: character to check
+* 
+* Return: 1 if c is a digit, 0 otherwise
+*/
+int is_digit(char c)
+{
+	if (c >= '0' && c <= '9');
+		return (1);
+return (0);
+}
