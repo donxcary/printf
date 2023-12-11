@@ -1,188 +1,583 @@
 #include "main.h"
 
-/************************* PRINT CHAR *************************/
+/*************************Print Char*************************/
 
 /**
- * print_char - Prints a char
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: Width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
+ * print_char - prints a char
+ * @type: list of arguments
+ * buffer: buffer array to handle print
+ * @flags: Calcutate active flags
+ * width: width
+ * precision: precision specification
+ * size: size specification
+ * Return: number of characters printed
  */
-int print_char(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_char(va_list types, char* buff, unsigned int i, int flags, int width, int precision, int size)
 {
 	char c = va_arg(types, int);
 
-	return (handle_write_char(c, buffer, flags, width, precision, size));
+	(void)width;
+	(void)precision;
+	(void)size;
+	(void)flags;
+
+	buff[i] = c;
+	return (1);
 }
-/************************* PRINT A STRING *************************/
+
+/*************************Print String*************************/
 /**
- * print_string - Prints a string
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
+ * print_string - prints a string
+ * @type: list of arguments
+ * buffer: buffer array to handle print
+ * @flags: Calcutate active flags
+ * width: width
+ * precision: precision specification
+ * size: size specification
+ * Return: number of characters printed
  */
-int print_string(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_string(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
 {
-	int length = 0, i;
-	char *str = va_arg(types, char *);
+char *str = va_arg(args, char *);
+	int j = 0;
 
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	if (str == NULL)
+(void)width;
+(void)precision;
+(void)size;
+(void)flags;
+
+if (str == NULL)
+	str = "(null)";
+while (str[j])
+{
+buff[i] = str[j];
+j++;
+i++;
+}
+return (j);
+}
+
+/*************************Print Percent*************************/
+/**
+* print_percent - prints a percent symbol
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_percent(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+(void)args;
+(void)width;
+(void)precision;
+(void)size;
+(void)flags;
+
+buff[i] = '%';
+return (1);
+}
+
+/*************************Print Int*************************/
+/**
+* print_int - print integer
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_int(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+int j = BUFF_SIZE - 2;
+int is_negative = 0;
+long int num = va_arg(args, int);
+unsigned long int num2;
+num2 = convert(num, 10, 0, flags);
+
+(void)width;	
+(void)precision;
+(void)size;
+
+if (num < 0)
+{
+is_negative = 1;
+num2 = -num;
+}
+if (num == 0)
+{
+buff[j] = '0';
+return (1);
+}
+while (num2 != 0)
+{
+buff[j] = (num2 % 10) + '0';
+num2 /= 10;
+j--;
+}
+if (is_negative)
+{
+buff[j] = '-';
+return (1);
+}
+return (BUFF_SIZE - 1 - j);
+}
+
+/*************************Print Binary*************************/
+/**
+* print_binary - print an unsigned number
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_binary(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+unsigned int j = BUFF_SIZE - 2;
+unsigned int num = va_arg(args, unsigned int);
+unsigned int num2;	
+num2 = convert(num, 2, 0, flags);
+
+(void)width;
+(void)precision;
+(void)size;
+
+if (num == 0)
+{
+buff[j] = '0';
+return (1);
+}
+while (num2 != 0)
+{
+buff[j] = (num2 % 10) + '0';
+num2 /= 10;
+j--;
+}
+return (BUFF_SIZE - 1 - j);
+}
+
+/*************************Print Unsigned Int*************************/
+/**
+* print_unsigned - print an unsigned number
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_unsigned(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+unsigned int j = BUFF_SIZE - 2;
+unsigned int num = va_arg(args, unsigned int);
+unsigned int num2;
+num2 = convert(num, 10, 0, flags);
+
+(void)width;
+(void)precision;
+(void)size;
+
+if (num == 0)
+{
+buff[j] = '0';
+return (1);
+}
+while (num2 != 0)
+{
+buff[j] = (num2 % 10) + '0';
+num2 /= 10;
+j--;
+}
+return (BUFF_SIZE - 1 - j);
+}
+
+/*************************Print Octal*************************/
+/**
+* print_octal - print an unsigned number in octal notation
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_octal(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+	unsigned int j = BUFF_SIZE - 2;
+unsigned int num = va_arg(args, unsigned int);
+unsigned int num2;
+num2 = convert(num, 8, 0, flags);
+
+(void)width;
+(void)precision;
+(void)size;
+
+if (num == 0)
+{
+buff[j] = '0';
+return (1);
+}
+while (num2 != 0)
+{
+buff[j] = (num2 % 10) + '0';
+num2 /= 10;
+j--;
+}
+return (BUFF_SIZE - 1 - j);
+}
+
+/*************************Print Hex*************************/
+/**
+* print_hex - print an unsigned number in hexadecimal notation
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_hex(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+unsigned int j = BUFF_SIZE - 2;
+unsigned int num = va_arg(args, unsigned int);
+unsigned int num2;
+num2 = convert(num, 16, 0, flags);
+
+(void)width;
+(void)precision;
+(void)size;
+
+if (num == 0)
+{
+buff[j] = '0';
+return (1);
+}
+while (num2 != 0)
+{
+if (num2 % 16 < 10)
+buff[j] = (num2 % 16) + '0';
+else
+buff[j] = (num2 % 16) + 'W';
+num2 /= 16;
+j--;
+}
+return (BUFF_SIZE - 1 - j);
+}
+
+/*************************Print Hex Upper*************************/
+/**
+* print_hex_upper - print an unsigned number in upper hexadecimal notation
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_hex_upper(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+unsigned int j = BUFF_SIZE - 2;
+unsigned int num = va_arg(args, unsigned int);
+unsigned int num2;
+num2 = convert(num, 16, 1, flags);
+
+(void)width;
+(void)precision;
+(void)size;
+
+if (num == 0)
+{
+buff[j] = '0';
+return (1);
+}
+while (num2 != 0)
+{
+if (num2 % 16 < 10)
+buff[j] = (num2 % 16) + '0';
+else
+buff[j] = (num2 % 16) + '7';
+num2 /= 16;
+j--;
+}
+return (BUFF_SIZE - 1 - j);
+}
+
+/*************************Convert*************************/
+/**
+* convert - convert a number to another base
+* @num: number to convert
+* @base: base to convert to
+* @is_upper: flag to determine if hex is upper or lower case
+* @flags: flags to determine if number is signed or not
+* Return: converted number
+*/
+
+unsigned long int convert(unsigned long int num, int base, int is_upper, int flags)
+{
+	unsigned long int num2 = 0;
+	int i = 1;
+	int rem;
+
+	if (flags & F_LONG)
 	{
-		str = "(null)";
-		if (precision >= 6)
-			str = "      ";
-	}
-
-	while (str[length] != '\0')
-		length++;
-
-	if (precision >= 0 && precision < length)
-		length = precision;
-
-	if (width > length)
-	{
-		if (flags & F_MINUS)
+		while (num != 0)
 		{
-			write(1, &str[0], length);
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			return (width);
+			rem = num % base;
+			num /= base;
+			if (rem < 10)
+				rem += '0';
+			else
+				rem += is_upper ? '7' : 'W';
+			num2 += rem * i;
+			i *= 10;
+		}
+	}
+	else
+	{
+		while (num != 0)
+		{
+			rem = num % base;
+			num /= base;
+			if (rem < 10)
+				rem += '0';
+			else
+				rem += is_upper ? '7' : 'W';
+			num2 += rem * i;
+			i *= 10;
+		}
+	}
+	return (num2);
+}
+
+/*************************Print Non Printable*************************/
+/**
+* print_non_printable - print a non printable character
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_non_printable(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+	char *str = va_arg(args, char *);
+	int j = 0;
+	char *hex = "0123456789ABCDEF";
+
+	(void)width;
+	(void)precision;
+	(void)size;
+	(void)flags;
+
+	if (str == NULL)
+		str = "(null)";
+	while (str[j])
+	{
+		if (str[j] < 32 || str[j] >= 127)
+		{
+			buff[i] = '\\';
+			i++;
+			buff[i] = 'x';
+			i++;
+			buff[i] = hex[(str[j] / 16) % 16];
+			i++;
+			buff[i] = hex[str[j] % 16];
+			i++;
 		}
 		else
 		{
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			write(1, &str[0], length);
-			return (width);
+			buff[i] = str[j];
+			i++;
 		}
+		j++;
 	}
-
-	return (write(1, str, length));
-}
-/************************* PRINT PERCENT SIGN *************************/
-/**
- * print_percent - Prints a percent sign
- * @types: Lista of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
- */
-int print_percent(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	UNUSED(types);
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	return (write(1, "%%", 1));
+return (j);
 }
 
-/************************* PRINT INT *************************/
+/*************************Print Pointer*************************/
 /**
- * print_int - Print int
- * @types: Lista of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
- */
-int print_int(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+* print_pointer - print a memory address
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_pointer(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
 {
-	int i = BUFF_SIZE - 2;
-	int is_negative = 0;
-	long int n = va_arg(types, long int);
-	unsigned long int num;
+	unsigned long int num = va_arg(args, unsigned long int);
+	unsigned long int num2;
+	unsigned int j = BUFF_SIZE - 2;
+	char *hex = "0123456789abcdef";
 
-	n = convert_size_number(n, size);
+	(void)width;
+	(void)precision;
+	(void)size;
+	(void)flags;
 
-	if (n == 0)
-		buffer[i--] = '0';
-
-	buffer[BUFF_SIZE - 1] = '\0';
-	num = (unsigned long int)n;
-
-	if (n < 0)
+	if (num == 0)
 	{
-		num = (unsigned long int)((-1) * n);
-		is_negative = 1;
+		buff[j] = '(';
+		j--;
+		buff[j] = 'n';
+		j--;
+		buff[j] = 'i';
+		j--;
+		buff[j] = 'l';
+		j--;
+		buff[j] = ')';
+		j--;
+		return (6);
 	}
-
-	while (num > 0)
+	buff[j] = 'x';
+	j--;
+	buff[j] = '0';
+	j--;
+	while (num != 0)
 	{
-		buffer[i--] = (num % 10) + '0';
-		num /= 10;
+		num2 = num % 16;
+		buff[j] = hex[num2];
+		num /= 16;
+		j--;
 	}
-
-	i++;
-
-	return (write_number(is_negative, i, buffer, flags, width, precision, size));
+	return (BUFF_SIZE - 1 - j);
 }
 
-/************************* PRINT BINARY *************************/
+/*************************Print Reverse*************************/
 /**
- * print_binary - Prints an unsigned number
- * @types: Lista of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Numbers of char printed.
- */
-int print_binary(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+* print_reverse - print a string in reverse
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+
+int print_rev_string(va_list types, char* buff, unsigned int i, int flags, int width, int precision, int size)
 {
-	unsigned int n, m, i, sum;
-	unsigned int a[32];
-	int count;
+char *str = va_arg(types, char *);
+	int j = 0;
+	int k = 0;
 
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
+	(void)width;
+	(void)precision;
+	(void)size;
+	(void)flags;
 
-	n = va_arg(types, unsigned int);
-	m = 2147483648; /* (2 ^ 31) */
-	a[0] = n / m;
-	for (i = 1; i < 32; i++)
+	if (str == NULL)
+		str = "(null)";
+	while (str[j])
+		j++;
+	j--;
+	while (j >= 0)
 	{
-		m /= 2;
-		a[i] = (n / m) % 2;
+		buff[i] = str[j];
+		i++;
+		j--;
+		k++;
 	}
-	for (i = 0, sum = 0, count = 0; i < 32; i++)
+	return (k);
+}
+
+int print_reverse(va_list args, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+	char *str = va_arg(args, char *);
+	int j = 0;
+	int k = 0;
+
+	(void)width;
+	(void)precision;
+	(void)size;
+	(void)flags;
+
+	if (str == NULL)
+		str = "(null)";
+	while (str[j])
+		j++;
+	j--;
+	while (j >= 0)
 	{
-		sum += a[i];
-		if (sum || i == 31)
+		buff[i] = str[j];
+		i++;
+		j--;
+		k++;
+	}
+	return (k);
+}
+
+/*************************Print Rota13*************************/
+/**
+* print_rot13 - print a string in rot13
+* @type: list of arguments
+* buffer: buffer array to handle print
+* @flags: Calcutate active flags
+* width: width
+* precision: precision specification
+* size: size specification
+* Return: number of characters printed
+*/
+int print_rot13sting(va_list types, char* buff, unsigned int i, int flags, int width, int precision, int size)
+{
+	char *str = va_arg(types, char *);
+	int j = 0;
+	int k = 0;
+	char *alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char *rot13 = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+
+	(void)width;
+	(void)precision;
+	(void)size;
+	(void)flags;
+
+	if (str == NULL)
+		str = "(null)";
+	while (str[j])
+	{
+		k = 0;
+		while (alpha[k])
 		{
-			char z = '0' + a[i];
-
-			write(1, &z, 1);
-			count++;
+			if (str[j] == alpha[k])
+			{
+				buff[i] = rot13[k];
+				i++;
+				break;
+			}
+			k++;
 		}
+		if (!alpha[k])
+		{
+			buff[i] = str[j];
+			i++;
+		}
+		j++;
 	}
-	return (count);
+	return (j);
+}
+	return 0;
 }
