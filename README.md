@@ -1,4 +1,4 @@
-Printf Project 1.0
+Printf Project did it alone this time around
 -- by: Akoto Nana Ofori
 -- date: 2023-12-11
 -- file: Printf
