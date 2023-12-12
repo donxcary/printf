@@ -2,9 +2,9 @@
 
 /**
  * handle_print - prints an argument based on its type
- * @fmt: formatted string to print the argument
- * @ind: index of the argument to print
- * @buff: buffer array to handle print
+ * @formta: formatted string to print the argument
+ * @i: index of the argument to print
+ * @buffer: buffer array to handle print
  * @list: list of arguments
  * @flags: calculation actiive flags
  * @width: calculation active width
@@ -15,7 +15,8 @@
 int handle_print(const char *format, int *i, va_list list, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int i, unknow_len = 0; printed_chars = -1;
+	int i, unknow_len = 0;
+		printed_chars = -1;
 	fmt_t fmt_types[] = {
 		{'c', print_char}, {'s', print_string}, {'%', print_percent},
 		{'i', print_int}, {'d', print_int}, {'b', print_binary},

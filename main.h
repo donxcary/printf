@@ -19,7 +19,7 @@
 #define S_LONG 1
 
 /**
-* struct fmt - struct op
+* struct fmt - struct
 * @op: the operator
 * @fmt: format
 * @fn: the function associated
@@ -81,7 +81,7 @@ int print_pointer(va_list types, char buffer[], int flags,
 
 /* functions to handle other specifiers */
 int get_flags(const char *format, int *i);
-int get_width(const char *format, int *i, va_list list);
+int get_width(const char *format, int *i, va_list);
 int get_precision(const char *format, int *i, va_list list);
 int get_size(const char *format, int *i);
 

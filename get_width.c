@@ -4,6 +4,7 @@
  * get_width - gets the width of the binary representation of a number
  * @format: formatted string to print the argument
  * @i: list of the argument to print
+ * @list: list of arguments
  * Return: the width of the binary representation of a number
  */
 

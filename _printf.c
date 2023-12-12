@@ -1,8 +1,11 @@
-#include "main.h"
+#include "main.h" *
 
 /**
  * _printf - prints function
  * @format: format specifier
+ * @buffer: buffer array to handle print
+ * @buff_ind: buff_ind array
+ *
  * Return: number of characters printed
  */
 void print_buffer(char buffer[], int *buff_ind);
@@ -62,6 +65,5 @@ void print_buffer(char buffer[], int *buff_ind)
 {
 	if (*buff_ind > 0)
 		write(1, &buffer[0], *buff_ind);
-		*buff_ind = 0;
-	
+		*buff_ind = 0
 }
