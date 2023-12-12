@@ -2,7 +2,7 @@
 
 /**
  * handle_print - prints an argument based on its type
- * @formta: formatted string to print the argument
+ * @fmt: formatted string to print the argument
  * @i: index of the argument to print
  * @buffer: buffer array to handle print
  * @list: list of arguments
@@ -12,7 +12,7 @@
  * @size: size specifier
  * Return: 1 or 2
  */
-int handle_print(const char *format, int *i, va_list list, char buffer[],
+int handle_print(const char *fmt, int *i, va_list list, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	int i, unknow_len = 0;

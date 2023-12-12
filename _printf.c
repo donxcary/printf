@@ -1,14 +1,14 @@
 #include "main.h" *
 
+void print_buffer(char buffer[], int *buff_ind);
+
 /**
  * _printf - prints function
+ *
  * @format: format specifier
- * @buffer: buffer array to handle print
- * @buff_ind: buff_ind array
  *
  * Return: number of characters printed
  */
-void print_buffer(char buffer[], int *buff_ind);
 
 int _printf(const char *format, ...)
 {

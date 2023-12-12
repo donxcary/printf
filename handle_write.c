@@ -58,58 +58,26 @@ int handle_write_char(char c, char buffer[], int flags,
  *
  * Return: Number of chars printed.
  */
-	int handle_write_number(int is_negative, int ind, char buffer[],
+int handle_write_number(int is_negative, int ind, char buffer[],
 	int flags, int width, int precision, int size)
-{ /* char is stored at left and paddind at buffer's right */
-	int i = 0, j = 0, k = 0, l = 0, m = 0, n = 0;
-	char padd = ' ';
-	char *str = NULL;
+{
+	int length = BUFF_SIZE - ind - 1;
+	char padd = ' ', extra_ch = 0;
 
-	UNUSED(precision);
 	UNUSED(size);
 
-	if (flags & F_ZERO)
+	if ((flags & F_ZERO) &&
+		!(flags & F_MINUS))
 		padd = '0';
-
 	if (is_negative)
-	{
-		buffer[i++] = '-';
-		ind++;
-	}
+		extra_ch = '-';
+	else if (flags & F_PLUS)
+		extra_ch = '+';
+	else if (flags & F_SPACE)
+		extra_ch = ' ';
 
-	if (flags & F_PLUS)
-	{
-		buffer[i++] = '+';
-		ind++;
-	}
-
-	if (flags & F_SPACE)
-	{
-		buffer[i++] = ' ';
-		ind++;
-	}
-
-	if (width > ind)
-	{
-		buffer[BUFF_SIZE - 1] = '\0';
-		for (j = 0; j < width - ind; j++)
-			buffer[BUFF_SIZE - j - 2] = padd;
-
-		if (flags & F_MINUS)
-		{
-			for (k = 0; k < ind; k++)
-				buffer[k + j] = buff[k];
-			return (write(1, &buffer[0], ind + j));
-		}
-		else
-		{
-			for (l = 0; l < ind; l++)
-				buffer[BUFF_SIZE - l - 2 - j] = buffer[ind - l - 1];
-			return (write(1, &buffer[BUFF_SIZE - l - 1 - j], ind + j));
-		}
-	}
-
-	return (write(1, &buffer[0], ind));
+	return (write_num(ind, buffer, flags, width, precision,
+		length, padd, extra_ch));
 }
 
 /************************* Handle Write Num *************************/
@@ -126,6 +94,7 @@ int handle_write_char(char c, char buffer[], int flags,
  *
  * Return: Number of printed chars.
  */
+
 int write_num(int ind, char buffer[],
 	int flags, int width, int prec,
 	int length, char padd, char extra_c)
