@@ -12,7 +12,8 @@
  *
  * Return: Number of chars printed.
  */
-int handle_write_char(char c, char buff[], int flags, int width, int precision, int size)
+int handle_write_char(char c, char buffer[], int flags,
+	int width, int precision, int size)
 { /* char is stored at left and paddind at buffer's right */
 	int i = 0;
 	char padd = ' ';
@@ -56,7 +57,8 @@ int handle_write_char(char c, char buff[], int flags, int width, int precision, 
  *
  * Return: Number of chars printed.
  */
-int handle_write_number(int is_negative, int ind, char buff[], int flags, int width, int precision, int size)
+int handle_write_number(int is_negative, int ind, char buffer[],
+	int flags, int width, int precision, int size)
 { /* char is stored at left and paddind at buffer's right */
 	int i = 0, j = 0, k = 0, l = 0, m = 0, n = 0;
 	char padd = ' ';
@@ -106,7 +108,7 @@ int handle_write_number(int is_negative, int ind, char buff[], int flags, int wi
 		}
 	}
 
-	return (write(1, &buff[0], ind));
+	return (write(1, &buffer[0], ind));
 }
 
 /************************* Handle Write Num *************************/
@@ -183,7 +185,7 @@ int write_num(int ind, char buffer[],
  *
  * Return: Number of written chars.
  */
-int write_pointer(char buff[], int ind, int length,
+int write_pointer(char buffer[], int ind, int length,
 	int width, int flags, char padd, char extra_c, int padd_start)
 {
 	int i;
@@ -279,7 +281,6 @@ int write_unsgnd(int is_negative, int ind, char buffer[],
 		{
 			return (write(1, &buffer[0], i) + write(1, &buffer[ind], length));
 		}
-	}
 
 	return (write(1, &buffer[ind], length));
 }

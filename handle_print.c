@@ -12,11 +12,12 @@
  * @size: size specifier
  * Return: 1 or 2
  */
-int handle_print(const char* format, int* i, va_list list, char buff[], int flags, int width, int precision, int size)
+int handle_print(const char *format, int *i, va_list list, char buffer[],
+	int flags, int width, int precision, int size)
 {
 	int i, unknow_len = 0; printed_chars = -1;
 	fmt_t fmt_types[] = {
-		{'c',print_char}, {'s', print_string}, {'%', print_percent},
+		{'c', print_char}, {'s', print_string}, {'%', print_percent},
 		{'i', print_int}, {'d', print_int}, {'b', print_binary},
 		{'u', print_unsigned}, {'o', print_octal}, {'x', print_hexadecimal},
 		{'X', print_hexa_upper}, {'p', print_pointer}, {'S', print_non_printable},
@@ -46,4 +47,4 @@ int handle_print(const char* format, int* i, va_list list, char buff[], int flag
 		return (unknow_len);
 	}
 	return (printed_chars);
-}	
+}

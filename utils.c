@@ -1,7 +1,7 @@
 #include "main.h"
 
 /************************* Is Printable *************************/
-/*8
+/**
 * is_printable - checks if a character is printable
 * @c: character to check
 * Return: 1 if c is printable, 0 otherwise
@@ -40,7 +40,7 @@ int append_hexa_code(char ascii_code, char buff[], int i)
 * convert_size_unsgnd - cast a number to specified size
 * @num: number to cast
 * @size: number indicating the type of casting
-* 
+*
 * Return: the casted number
 */
 long int convert_size_unsgnd(unsigned long int num, int size)
@@ -58,8 +58,8 @@ long int convert_size_unsgnd(unsigned long int num, int size)
 * convert_size_number - cast a number to specified size
 * @num: number to cast
 * @size: number indicating the type of casting
-* 
-* 
+*
+*
 * Return: the casted number
 */
 long int convert_size_number(long int num, int size)
@@ -76,12 +76,13 @@ long int convert_size_number(long int num, int size)
 /**
 * is_digit - checks if a character is a digit
 * @c: character to check
-* 
+*
 * Return: 1 if c is a digit, 0 otherwise
 */
 int is_digit(char c)
 {
-	if (c >= '0' && c <= '9');
+	if (c >= '0' && c <= '9')
 		return (1);
-return (0);
+
+	return (0);
 }

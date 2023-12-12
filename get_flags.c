@@ -10,7 +10,7 @@
 * @i: take a perameter
 * Return: flags
 */
-int get_flags(const char* format, int* i)
+int get_flags(const char *format, int *i)
 {
 	/* - + 0 # ' ' */
 	/* 1 2 4 8 16 */

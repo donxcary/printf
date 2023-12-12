@@ -14,7 +14,7 @@
  * @size: Size specification
  * Return: Number of chars printed
  */
-int print_hexa(va_list types, char map_to[], char buff[],
+int print_hexa(va_list types, char map_to[], char buffer[],
 	int flags, char flag_ch, int width, int precision, int size)
 {
 	int i = BUFF_SIZE - 2;
@@ -58,7 +58,7 @@ int print_hexa(va_list types, char map_to[], char buff[],
  * @size: Size specifier
  * Return: Number of chars printed
  */
-int print_hexadecimal(va_list types, char buff[],
+int print_hexadecimal(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	return (print_hexa(types, "0123456789abcdef", buffer,
@@ -76,7 +76,7 @@ int print_hexadecimal(va_list types, char buff[],
  * @size: Size specifier
  * Return: Number of chars printed
  */
-int print_hexa_upper(va_list types, char buff[],
+int print_hexa_upper(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	return (print_hexa(types, "0123456789ABCDEF", buffer,
@@ -94,7 +94,7 @@ int print_hexa_upper(va_list types, char buff[],
  * @size: Size specifier
  * Return: Number of chars printed
  */
-int print_octal(va_list types, char buff[],
+int print_octal(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 
@@ -136,7 +136,7 @@ int print_octal(va_list types, char buff[],
  * @size: Size specifier
  * Return: Number of chars printed
  */
-int print_binary(va_list types, char buff[],
+int print_binary(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	unsigned int n, m, i, sum;
