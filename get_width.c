@@ -6,7 +6,8 @@
  * @i: list of the argument to print
  * Return: the width of the binary representation of a number
  */
-int get_width(const char *format, int *i, va_list list)
+
+	int get_width(const char *format, int *i, va_list list)
 {
 	int curr_i;
 	int width = 0;
@@ -27,8 +28,6 @@ int get_width(const char *format, int *i, va_list list)
 		else
 		break;
 	}
-
 	*i = curr_i - 1;
-
-	return (width);
+return (width);
 }

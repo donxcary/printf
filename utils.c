@@ -12,17 +12,17 @@ int is_printable(char c)
 }
 
 /************************* Append Hexa *************************/
-/*
+/**
 * append_hexa_code - appends a hexa code to a buffer
 * @buffer: array of characters
 * @index: index at which to start appending
 * @ascii_code: ascii code to append
 * Return: always 3
 */
-int append_hexa_code(char ascii_code, char buff[], int i)
+int append_hexa_code(char ascii_code, char buffer[], int i)
 {
 	char map_to[] = "0123456789ABCDEF";
-	/* The hexa format code is always 2 digits long */
+/* The hexa format code is always 2 digits long */
 	if (ascii_code < 0)
 		ascii_code *= -1;
 
@@ -62,7 +62,7 @@ long int convert_size_unsgnd(unsigned long int num, int size)
 *
 * Return: the casted number
 */
-long int convert_size_number(long int num, int size)
+	long int convert_size_number(long int num, int size)
 {
 	if (size == S_LONG)
 		return (num);
@@ -79,7 +79,7 @@ long int convert_size_number(long int num, int size)
 *
 * Return: 1 if c is a digit, 0 otherwise
 */
-int is_digit(char c)
+	int is_digit(char c)
 {
 	if (c >= '0' && c <= '9')
 		return (1);
