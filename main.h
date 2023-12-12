@@ -58,7 +58,7 @@ static int print_decimal(va_list types, char buffer[],
 /* function to print numbers */
 int print_int(va_list types, char buffer[], int flags,
 	int width, int precision, int size);
-int print_unsigned(va_list types, char buffer[], int flags,
+int print_unsigned(char buffer[], int flags,
 	int width, int precision, int size);
 int print_octal(va_list types, char buffer[], int flags,
 	int width, int precision, int size);

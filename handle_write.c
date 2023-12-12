@@ -84,9 +84,9 @@ int handle_write_number(int is_negative, int ind, char buffer[],
 /**
  * write_num - Write a number using a bufffer
  * @ind: Index at which the number starts on the buffer
- * @buffer: Buffer
- * @flags: Flags
- * @width: width
+ * @buffer: Buffer arrays
+ * @flags: Flags specifier
+ * @width: get width
  * @prec: Precision specifier
  * @length: Number length
  * @padd: Pading char
@@ -136,10 +136,8 @@ int write_num(int ind, char buffer[],
 				buffer[--ind] = extra_c;
 			return (write(1, &buffer[1], i - 1) + write(1, &buffer[ind], length));
 		}
-		else if (!(flags & F_MINUS) && padd == '0')
-
-/* extra char to left of padd */
-		{
+		else if (!(flags & F_MINUS) && padd == '0')/* extra char to left of padd */
+	{
 			if (extra_c)
 				buffer[--padd_start] = extra_c;
 			return (write(1, &buffer[padd_start], i - padd_start) +
@@ -238,10 +236,8 @@ int write_unsgnd(int is_negative, int ind, char buffer[],
 	UNUSED(is_negative);
 	UNUSED(size);
 
-	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
-		return (0);
-
-/* printf(".0d", 0)  no char is printed */
+	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0');
+		return (0);/* printf(".0d", 0)  no char is printed */
 
 	if (precision > 0 && precision < length)
 		padd = ' ';
